@@ -1,0 +1,94 @@
+﻿<Page x:Class="SaleWPFApp.AdminProduct"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SaleWPFApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1000"
+      Title="AdminProduct"
+      Loaded="Page_Loaded">
+    <Page.Resources>
+        <ResourceDictionary Source="StyleResource.xaml"/>
+    </Page.Resources>
+    <Border Background="#F0F0F0" CornerRadius="10" Margin="10">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" Text="Products Manager" 
+                       Style="{StaticResource headingPrimary}"
+                       FontSize="30" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="#FF0400FF"/>
+
+            <!-- Search Panel -->
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Id:" Style="{StaticResource labelPrimary}" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" x:Name="searchById" Style="{StaticResource texboxPrimary}" Height="30" Margin="5,0,10,0"/>
+
+                <Label Grid.Column="2" Content="Name:" Style="{StaticResource labelPrimary}" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="3" x:Name="searchByName" Style="{StaticResource texboxPrimary}" Height="30" Margin="5,0,10,0"/>
+
+                <Label Grid.Column="4" Content="UnitPrice:" Style="{StaticResource labelPrimary}" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="5" x:Name="searchByUnitPrice" Style="{StaticResource texboxPrimary}" Height="30" Margin="5,0,10,0"/>
+
+                <Label Grid.Column="6" Content="UnitInStock:" Style="{StaticResource labelPrimary}" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="7" x:Name="searchByUnitsInStock" Style="{StaticResource texboxPrimary}" Height="30" Margin="5,0,10,0"/>
+
+                <Button Grid.Column="8" Content="Search" 
+                        Style="{StaticResource btnPrimary}" 
+                        Width="80" Height="30" 
+                        VerticalAlignment="Center"
+                        Click="Button_Search" Background="#FF0400FF"/>
+            </Grid>
+
+            <!-- Action Buttons -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,20">
+                <Button x:Name="btnReload" Content="Reload" Style="{StaticResource btnPrimary}" Width="106" Height="30" Margin="0,0,10,0" Click="Button_Reload" Background="#FF0400FF"/>
+                <Button x:Name="btnDelete" Content="Delete" IsEnabled="False" Style="{StaticResource btnPrimary}" Width="80" Height="30" Margin="0,0,10,0" Click="Button_Delete"/>
+                <Button x:Name="btnEdit" Content="Edit" IsEnabled="False" Style="{StaticResource btnPrimary}" Width="80" Height="30" Margin="0,0,10,0" Click="Button_Edit"/>
+                <Button Content="Add New" Style="{StaticResource btnPrimary}" Width="119" Height="30" Click="Button_OpenCreate" Background="#FF0400FF"/>
+            </StackPanel>
+
+            <!-- Product List -->
+            <ListView Grid.Row="3" x:Name="listView" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.CanContentScroll="False"
+                      SizeChanged="ListView_SizeChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Product ID" Width="100" DisplayMemberBinding="{Binding ProductId}"/>
+                        <GridViewColumn Header="Product Name" Width="200" DisplayMemberBinding="{Binding ProductName}"/>
+                        <GridViewColumn Header="Category ID" Width="100" DisplayMemberBinding="{Binding CategoryId}"/>
+                        <GridViewColumn Header="Weight" Width="100" DisplayMemberBinding="{Binding Weight}"/>
+                        <GridViewColumn Header="Unit Price" Width="100" DisplayMemberBinding="{Binding UnitPrice, StringFormat={}{0:C}}"/>
+                        <GridViewColumn Header="Units In Stock" Width="100" DisplayMemberBinding="{Binding UnitsInStock}"/>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <EventSetter Event="Selected" Handler="ListViewItem_Selected"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+    </Border>
+</Page>
