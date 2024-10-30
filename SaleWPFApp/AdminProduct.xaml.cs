@@ -16,16 +16,36 @@ namespace SaleWPFApp
     public partial class AdminProduct : Page
     {
         private readonly IProductRepository productRepository;
+        private int currentPage = 1;
+        private const int itemsPerPage = 10;
+
         public AdminProduct(IProductRepository _productRepository)
         {
             InitializeComponent();
-            this.productRepository = _productRepository;
-            this.listView.SelectionChanged += ListView_SelectionChanged;
+            productRepository = _productRepository;
+            listView.SelectionChanged += ListView_SelectionChanged;
+            UpdatePage();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            listView.ItemsSource = productRepository.List();
+            UpdatePage();
+        }
+
+        private void UpdatePage()
+        {
+            var products = productRepository.List();
+            int totalItems = products.Count();
+
+            var pagedItems = products
+                .Skip((currentPage - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .ToList();
+
+            listView.ItemsSource = pagedItems;
+            btnPreviousPage.IsEnabled = currentPage > 1;
+            btnNextPage.IsEnabled = currentPage < (totalItems + itemsPerPage - 1) / itemsPerPage;
+            txtCurrentPage.Text = $"Page {currentPage}";
         }
 
         public void RefreshListView()
@@ -128,6 +148,25 @@ namespace SaleWPFApp
             {
                 btnEdit.IsEnabled = false;
                 btnDelete.IsEnabled = false;
+            }
+        }
+
+        private void Button_PreviousPage(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                UpdatePage();
+            }
+        }
+
+        private void Button_NextPage(object sender, RoutedEventArgs e)
+        {
+            int totalItems = productRepository.List().Count();
+            if (currentPage < (totalItems + itemsPerPage - 1) / itemsPerPage)
+            {
+                currentPage++;
+                UpdatePage();
             }
         }
     }
