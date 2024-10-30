@@ -2,7 +2,6 @@
 using DataAccess.Repository;
 using System.Windows;
 
-
 namespace SaleWPFApp
 {
     /// <summary>
@@ -13,8 +12,9 @@ namespace SaleWPFApp
         private readonly IMemberRepository memberRepository;
         private readonly AdminMember adminMember;
         private Member? member;
+
         public AdminMemberCreate(AdminMember _adminMember, Member? _member, IMemberRepository _memberRepository)
-        { 
+        {
             InitializeComponent();
             this.memberRepository = _memberRepository;
             this.adminMember = _adminMember;
@@ -25,11 +25,11 @@ namespace SaleWPFApp
         {
             if (member != null)
             {
-                txtBoxEmail.Text = member.Email;
-                txtBoxCompanyName.Text = member.CompanyName;
-                txtBoxCity.Text = member.City;
-                txtBoxCountry.Text = member.Country;
-                txtBoxPassword.Password = member.Password;
+                txtBoxEmail.Text = member.Email ?? string.Empty;
+                txtBoxCompanyName.Text = member.CompanyName ?? string.Empty;
+                txtBoxCity.Text = member.City ?? string.Empty;
+                txtBoxCountry.Text = member.Country ?? string.Empty;
+                txtBoxPassword.Password = member.Password ?? string.Empty;
                 txtBoxId.Text = member.MemberId.ToString();
                 txtBoxId.Visibility = Visibility.Visible;
                 labelId.Visibility = Visibility.Visible;
@@ -46,20 +46,14 @@ namespace SaleWPFApp
             string country = txtBoxCountry.Text;
             string password = txtBoxPassword.Password;
 
-            Member? p = null;
-            if (member != null)
-            {
-                p = member;
-            }
-            else
-            {
-                p = new Member();
-            }
+            Member p = member ?? new Member();
+
             p.Email = email;
             p.CompanyName = companyName;
             p.City = city;
             p.Country = country;
             p.Password = password;
+
             if (member != null)
             {
                 memberRepository.Update(p);

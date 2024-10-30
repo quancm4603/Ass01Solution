@@ -79,7 +79,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Password" Style="{StaticResource labelPrimary}" VerticalAlignment="Center"/>
-                        <PasswordBox Grid.Column="1" x:Name="txtBoxPassword" Style="{StaticResource texboxPrimary}"/>
+                        <PasswordBox Grid.Column="1" x:Name="txtBoxPassword" Style="{StaticResource passwordBoxPrimary}"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

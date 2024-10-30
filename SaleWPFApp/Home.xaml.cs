@@ -112,5 +112,11 @@ namespace SaleWPFApp
             MyOrderWindown myOrderWindown = new MyOrderWindown(orderRepository, memberRepository);
             myOrderWindown.Show();
         }
+
+        private void Button_Logout(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            mainWindow.Show();
+        }
     }
 }
